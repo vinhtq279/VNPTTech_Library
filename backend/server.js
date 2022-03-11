@@ -28,7 +28,7 @@ class LIBRARY {
 
     get() {
 
-        //GET LIST OF ALL THE BOOKS
+        //GET LIST OF ALL THE bookS
         this.app.get('/api/getBooks', (req, res) => {
             let sql = `SELECT * FROM book`;
             this.db.query(sql, (err, result) => {
@@ -40,7 +40,7 @@ class LIBRARY {
             });
         });
 
-        //GET LIST OF BOOKS BY SEMESTER
+        //GET LIST OF bookS BY SEMESTER
         this.app.get('/api/getBooks/:id', (req, res) => {
             let sql = `SELECT * FROM book where semester = '${req.params.id}'`;
             this.db.query(sql, (err, result) => {
@@ -52,10 +52,10 @@ class LIBRARY {
             });
         });
 
-        //BORROW A BOOK
+        //borrow A book
         this.app.post('/api/borrow', (req, res) => {
-            let sql = [`INSERT INTO BORROW(idStudent, idBook) VALUES (${req.body.sid}, ${req.body.id});`,
-                       `Update BOOK SET count = count - 1 WHERE id = ${req.body.id}`];
+            let sql = [`INSERT INTO borrow(idStudent, idBook) VALUES (${req.body.sid}, ${req.body.id});`,
+                       `Update book SET count = count - 1 WHERE id = ${req.body.id}`];
 
                 for(let i = 0; i < sql.length; i++){
                     this.db.query(sql[i], (err, result) => {
@@ -71,7 +71,7 @@ class LIBRARY {
                 }
         });
 
-        //GET ALL THE ISSUED BOOKS BY A STUDENT
+        //GET ALL THE ISSUED bookS BY A student
         this.app.get('/api/getIssues/:sid', (req, res) => {
             
             let sql = `SELECT book.name, book.author, book.semester, book.id, borrow.date, borrow.deadline, student.name as sname\
@@ -87,13 +87,13 @@ class LIBRARY {
             });
         });
 
-        //RETURN A BOOK, UPDATE FINE IF ANY
+        //RETURN A book, UPDATE FINE IF ANY
         this.app.post('/api/return', (req, res) => {
             
             let sql = [`SELECT deadline from borrow\
                         WHERE idBook = ${req.body.id} and idStudent = ${req.body.sid}`,
                        `DELETE FROM borrow where idStudent = ${req.body.sid} and idBook = ${req.body.id}`,
-                       `UPDATE BOOK SET count = count + 1 WHERE id = ${req.body.id}`];
+                       `UPDATE book SET count = count + 1 WHERE id = ${req.body.id}`];
 
             for(let i = 0; i < sql.length; i++){
                 this.db.query(sql[i], (err, result) => {
@@ -108,7 +108,7 @@ class LIBRARY {
                         const timeDiff = d2 - d1;
                         const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
                         if(daysDiff > 0) {
-                            this.db.query(`UPDATE STUDENT SET fine = fine + ${(daysDiff - 1) * 10} WHERE id = '${req.body.sid}'`, (err, result) => {
+                            this.db.query(`UPDATE student SET fine = fine + ${(daysDiff - 1) * 10} WHERE id = '${req.body.sid}'`, (err, result) => {
                                 if(err)
                                     console.log(err);
                                 else
@@ -121,7 +121,7 @@ class LIBRARY {
             }
         });
 
-        //GET ALL THE STUDENTS WHO HAVE ISSUED A PARTICULAR BOOK
+        //GET ALL THE studentS WHO HAVE ISSUED A PARTICULAR book
         this.app.get('/api/students/:id', (req, res) => {
             
             let sql = `SELECT student.name, borrow.date, borrow.deadline\

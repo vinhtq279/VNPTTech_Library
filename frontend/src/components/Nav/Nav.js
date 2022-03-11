@@ -24,6 +24,7 @@ class Nav extends React.Component {
                     <li style={window.location.pathname === '/issue' ? {display: 'none'} : {display: 'inline-block'}}><Link to='/issue' onClick={this.update}>Issue Book</Link></li>
                     <li style={window.location.pathname === '/return' ? {display: 'none'} : {display: 'inline-block'}}><Link to='/return' onClick={this.update}>Return Book</Link></li>
                     <li style={window.location.pathname === '/search' ? {display: 'none'} : {display: 'inline-block'}}><Link to='/search' onClick={this.update}>Search</Link></li>
+		    <li style={window.location.pathname === '/login' ? {display: 'none'} : {display: 'inline-block'}}><Link to='/login' onClick={this.update}>Login</Link></li>
                 </ul>
             </div>
         );

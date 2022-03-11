@@ -14,7 +14,8 @@ class Books extends React.Component {
                         <tr>
                             <th scope="col">Book Name</th>
                             <th scope="col">Author</th>
-                            <th scope="col">Semester No</th>
+                            <th scope="col">Introduction</th>
+			    <th scope="col">Image</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>,
@@ -29,7 +30,8 @@ class Books extends React.Component {
                                 <tr key={el.id}>
                                     <td>{el.name.toUpperCase()}</td>
                                     <td>{el.author}</td>
-                                    <td>{el.semester}</td>
+                                    <td>{el.introduction}</td>
+				    <td><img src={el.image} alt="No" /></td>
                                     <td><button className="btn btn-primary" onClick={() => this.issueIt(el)}>Issue</button></td>
                                 </tr>]
                     })));

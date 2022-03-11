@@ -8,8 +8,8 @@ class Books extends React.Component {
                     <tr>
                         <th scope="col">Book Name</th>
                         <th scope="col">Author</th>
-                        <th scope="col">Total Count</th>
-                        <th scope="col">Semester No</th>
+                        <th scope="col">Introduction</th>
+                        <th scope="col">Image</th>
                     </tr>
                 </thead>,
         books: []
@@ -21,14 +21,15 @@ class Books extends React.Component {
             .then(books => {
                 books.map(
                     el => {
+			console.log(`el.count is: ${el.count}`);
                         if(el.count > 0) {
                             this.setState({
                                 books: [...this.state.books, 
                                     <tr key={el.id}>
                                         <td>{el.name.toUpperCase()}</td>
                                         <td>{el.author}</td>
-                                        <td>{el.count}</td>
-                                        <td>{el.semester}</td>
+                                        <td>{el.introduction}</td>
+					<td><img src={el.image} alt="No"/></td>
                                     </tr>]
                             })
                         }
