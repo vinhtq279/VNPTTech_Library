@@ -1,47 +1,44 @@
 import React from 'react';
 import './Issue.css';
+import Cookies from 'js-cookie';
 
 class Books extends React.Component {
     
     state = {
-        header: <thead></thead>,
+        header: <thead id="header">
+                    <tr>
+                        <th scope="col">Book Name</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Introduction</th>
+                        <th scope="col">Image</th>
+			<th scope="col"></th>
+                    </tr>
+                </thead>,
         books: []
     };
 
-    fetchData = () => {
-        var sem = document.getElementById('select').value;
-        this.setState({header: <thead id="header">
-                        <tr>
-                            <th scope="col">Book Name</th>
-                            <th scope="col">Author</th>
-                            <th scope="col">Introduction</th>
-			    <th scope="col">Image</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>,
-            books: []});
-
-        fetch(`/api/getBooks/${sem}`)
+    async componentDidMount() {
+        await fetch("/api/getBooks")
             .then(res => res.json())
-            .then(books =>
-                books.forEach(
-                    el => this.setState({
-                        books: [...this.state.books, 
-                                <tr key={el.id}>
-                                    <td>{el.name.toUpperCase()}</td>
-                                    <td>{el.author}</td>
-                                    <td>{el.introduction}</td>
-				    <td><img src={el.image} alt="No" /></td>
-                                    <td><button className="btn btn-primary" onClick={() => this.issueIt(el)}>Issue</button></td>
-                                </tr>]
-                    })));
-    }
-    
-    componentDidMount() {
-        if(document.getElementById('id').value === '')
-            document.getElementById('select').disabled = true;
-        else
-            document.getElementById('select').disabled = false;
+            .then(books => {
+                books.map(
+                    el => {
+                        console.log(`el.count is: ${el.count}`);
+                        if(el.count > 0) {
+                            this.setState({
+                                books: [...this.state.books, 
+                                    <tr key={el.id}>
+                                        <td>{el.name.toUpperCase()}</td>
+                                        <td>{el.author}</td>
+                                        <td>{el.introduction}</td>
+                                        <td><img src={el.image} alt="No"/></td>
+					<td><button className="btn btn-primary" onClick={() => this.issueIt(el)}>Issue</button></td>
+                                    </tr>]
+                            })
+                        }
+                        return el;
+                    })
+            });
     }
 
     issueIt = el => {
@@ -50,7 +47,7 @@ class Books extends React.Component {
                 headers: {'Content-Type':'application/json'},
                 body: JSON.stringify({
                     ...el,
-                    sid: parseInt(document.getElementById('id').value)
+                    sid: 'anything'
                 })
            });
            /*.then(res => {
@@ -64,21 +61,7 @@ class Books extends React.Component {
     render() {
         return (
             <div id='issue' className="text-center">
-                <div>
-                    <input className="form-control sel" type="number" placeholder="Enter Student ID" id="id" min="1" onChange={this.componentDidMount}></input>
-                    <select className="form-control sel" id="select">
-                        <option disabled>Select Semester</option>
-                        <option value="1">1st Sem</option>
-                        <option value="2">2nd Sem</option>
-                        <option value="3">3rd Sem</option>
-                        <option value="4">4th Sem</option>
-                        <option value="5">5th Sem</option>
-                        <option value="6">6th Sem</option>
-                        <option value="7">7th Sem</option>
-                        <option value="8">8th Sem</option>
-                    </select>
-                    <button className="btn btn-success" onClick={this.fetchData}>Submit</button>
-                </div>
+		Books You Can Borrow
                 <table id="results" className="table table-hover">
                     {this.state.header}
                     <tbody>

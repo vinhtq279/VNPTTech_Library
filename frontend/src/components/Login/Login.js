@@ -3,38 +3,21 @@ import './Login.css';
 
 class Login extends React.Component {
     
-    state = {
-        header: <thead id="header">
-                    <tr>
-                        <th scope="col">Book Name</th>
-                        <th scope="col">Author</th>
-                        <th scope="col">Introduction</th>
-                        <th scope="col">Image</th>
-                    </tr>
-                </thead>,
-        books: []
-    };
+   loginIt = () => {
+        fetch('/api/login', {
+                method: 'post',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({
+                    uid: document.getElementById('uid').value,
+		    password: document.getElementById('password').value
+                })
+           });
+           /*.then(res => {
+                fetch('/api/borrowed')
+                .then(res => res.json())
+                .then(e => console.log(e));
+           });*/
 
-    async componentDidMount() {
-        await fetch("/api/getBooks")
-            .then(res => res.json())
-            .then(books => {
-                books.map(
-                    el => {
-                        if(el.count > 0) {
-                            this.setState({
-                                books: [...this.state.books, 
-                                    <tr key={el.id}>
-                                        <td>{el.name.toUpperCase()}</td>
-                                        <td>{el.author}</td>
-                                        <td>{el.introduction}</td>
-					<td><img src={el.image} alt="No"/></td>
-                                    </tr>]
-                            })
-                        }
-                        return el;
-                    })
-            });
     }
 
     render() {
@@ -42,9 +25,9 @@ class Login extends React.Component {
             <div id='login'>
                 <span id="heading">LOGIN</span>
 		<form>
-			<input type="text" placeholder="...@vnpt-technology.vn" />
-			<input type="password" />
-			<button type="submit">Login</button>
+			<input type="text" placeholder="...@vnpt-technology.vn" id="uid" />
+			<input type="password" id="password" />
+			<button className="btn btn-primary" onClick={() => this.loginIt()}>Login</button>
 		</form>
             </div>
         );

@@ -12,3 +12,11 @@
 .table td {
     vertical-align: middle;
 }
+
+.cont {
+   background-color: blue;
+}
+
+.cont2 {
+    background-color: red;
+}

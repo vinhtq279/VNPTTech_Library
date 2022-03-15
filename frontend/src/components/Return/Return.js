@@ -54,7 +54,7 @@ class Return extends React.Component {
                 headers: {'Content-Type':'application/json'},
                 body: JSON.stringify({
                     ...el,
-                    sid: parseInt(document.getElementById('sid').value)
+                    sid: document.getElementById('sid').value
                 })
            });
 
@@ -64,7 +64,7 @@ class Return extends React.Component {
         return (
             <div id='return' className="text-center">
                 <div>
-                    <input className="form-control sel" type="number" placeholder="Enter Student ID" id="sid" min="1"></input>
+                    <input className="form-control sel" placeholder="Enter Student ID" id="sid" min="1"></input>
                     <button className="btn btn-success" onClick={this.fetchData}>Submit</button>
                 </div><br/>
                 {this.state.name}

@@ -6,10 +6,10 @@ class Books extends React.Component {
     state = {
         header: <thead id="header">
                     <tr>
-                        <th scope="col">Book Name</th>
-                        <th scope="col">Author</th>
-                        <th scope="col">Introduction</th>
-                        <th scope="col">Image</th>
+                        <th scope="col">Tên sách</th>
+                        <th scope="col">Tác giả</th>
+                        <th scope="col">Giới thiệu</th>
+                        <th scope="col">Bìa</th>
                     </tr>
                 </thead>,
         books: []
@@ -23,6 +23,7 @@ class Books extends React.Component {
                     el => {
 			console.log(`el.count is: ${el.count}`);
                         if(el.count > 0) {
+			    console.log(document.getElementById("bpp").value);
                             this.setState({
                                 books: [...this.state.books, 
                                     <tr key={el.id}>
@@ -40,15 +41,20 @@ class Books extends React.Component {
 
     render() {
         return (
-            <div id='books'>
-                <span id="heading">AVAILABLE BOOKS</span>
-                <table id="results" className="table text-center table-hover">
-                    {this.state.header}
-                    <tbody>
-                        {this.state.books}
-                    </tbody>
-                </table>
-            </div>
+		<div id='books'>
+                	<span id="heading">AVAILABLE BOOKS</span>
+	                <table id="results" className="table text-center table-hover">
+        	            {this.state.header}
+                	    <tbody>
+                        	{this.state.books}
+	                    </tbody>
+        	        </table>
+			<select id="bpp" onChange={this.ComponentDidMount}>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="1000">All</option>
+			</select>
+            	</div>
         );
     }
 
